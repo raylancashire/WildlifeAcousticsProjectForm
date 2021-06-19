@@ -1,0 +1,39 @@
+Group {
+    display: block;
+     color: black;
+     
+     background-color : white;
+     width: 100%;
+}
+ Title {
+      display: block;
+     color: Black;
+     font-size : 20px;
+     background-color : white;
+     text-align: center;
+     
+}
+ heading, title, author, publisher, edition, price {
+     display : block;
+     font-size : 12px;
+     font-weight : bold;
+}
+ Description {
+     display: block;
+     font-size : 12px;
+     font-family: Helvetica, sans-serif;
+     font-style: italic;
+}
+ Field {
+ display: block;
+     font-size : 14px;
+     font-weight : bold;
+     border: 2px solid powderblue;
+}
+
+Key {
+ display: block;
+     font-size : 14px;
+     font-weight : bold;
+     border: 2px solid powderblue;
+}

@@ -1,0 +1,1318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/css" href="DefaultRL.css"?>
+<MetaForms xmlns="https://www.wildlifeacousticsdom/SCHEMA/MetaForms/1.0" name="Kaleidoscope default metadata forms" version="5.3.3"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://www.wildlifeacousticsdom/SCHEMA/MetaForms/1.0">
+  <!-- 
+     Default MetaForm for Kaleidoscope by Wildlife Acoustics, Inc.
+
+     The following forms are defined here, and can be overridden individually
+     by editing a copy of this file to import into Kaleidoscope.  If the
+     imported file does not specify a specific form, the default form defined
+     here is used. Note that custom database fields should be added in the
+     OTHER group.
+
+     project - a human interface form for supplying project-wide metadata
+               to be applied to all files in a batch.
+
+     meta.csv - defines the output columns in generated meta.csv files
+
+     autoid.csv - defines the output columns in generated id.csv files
+
+     clusters.csv - defines the output columns in generated cluster.csv files
+
+     batch.csv - define the output columns in generated batch.csv files
+
+     ks_profiles - defines columns in the ks_profiles PostgreSQL table 
+                   representing recorder-specific information that is typically
+		   static across a large number of recordings in a deployment
+		   such as recorder settings, serial numbers, etc.
+                   
+     ks_recordings - defines columns in the ks_recordings PostgreSQL table
+                     representing recorder-specific information that is
+		     typically unique to a given recording such as timestamps,
+		     filenames, durations, GPS coordinates, and temperature
+		     readings.
+
+     ks_autoids - defines columns in the ks_autoids PostgreSQL table
+                  representing information stored in the database for each
+		  row of the output id.csv from a batch.  
+
+     ks_clusters - defines columns in the ks_clusters PostgreSQL table
+                   representing information stored in the database for each
+		   row of the output cluster.csv from a batch.
+
+     ks_batches - defines columns in the ks_batches PostgreSQL table
+                  representing information about each batch (including project
+		  settings and software settings).
+
+     ks_reviews - defines columns in the ks_reviews PostgreSQL table 
+                  representing individual manual reviews such as the
+		  Species Manual IDs.
+  -->
+  <!-- Define project-specific form containing user supplied meta data -->
+  <Form name="project">
+    <Title>Default Project Form</Title>
+    <Description>This is the Kaleidoscope built-in default project form</Description>
+    <Group>
+      <Heading>Name your batch</Heading>
+      <Description>You can give this batch job a nickname to make it easier to find again in the
+        database</Description>
+      <Field>
+        <Key>WA|*BATCHLABEL</Key>
+        <Label>Batch label (nickname)</Label>
+      </Field>
+    </Group>
+    <Group>
+      <Heading>Notes</Heading>
+      <Field>
+        <Key>Note</Key>
+      </Field>
+    </Group>
+    <Group>
+      <Heading>Privacy</Heading>
+      <Description>For Kaleidoscope Cloud users, you can make database records created for this
+        batch searchable by other users outside of your organization.</Description>
+      <Field type="integer">
+        <Key>WA|*ACCESS</Key>
+        <Label>Access</Label>
+        <Default>0</Default>
+        <Description>Private records are only accessible by you and others in your organization.
+          Public records are available in search results by other Kaleidoscope Cloud
+          users.</Description>
+        <Select>
+          <Option value="0">Private</Option>
+          <Option value="1">Public</Option>
+        </Select>
+      </Field>
+    </Group>
+    <Group>
+      <Heading>Licensing</Heading>
+      <Description>If you are the copyright holder of the data and metadata, these fields let you
+        grant license rights to third parties should you choose to do so. Note that if any input
+        files already contain this licensing metadata, the license information will be inherited and
+        not overridden.</Description>
+      <Field inherit="true">
+        <Key>WA|Copyright</Key>
+        <Label>Copyright</Label>
+        <Description>Copyright notice, if any</Description>
+      </Field>
+      <Field inherit="true">
+        <Key>WA|Attribution</Key>
+        <Label>Attribution</Label>
+        <Description>How would you like authorized third parties to give you attribution for your
+          data and metadata?</Description>
+      </Field>
+      <Field inherit="true">
+        <Key>WA|License</Key>
+        <Label>License Type</Label>
+        <Description>What rights do you want to grant others, if any? "CC" is short for Creative
+          Commons. Any license other than "None" will grant access to searchable database entries if
+          hosted by Wildlife Acoustics. Files are only accessible on Kaleidoscope Cloud if they are
+          in the PUBLIC folder regardless of the license metadata.</Description>
+        <Default>None</Default>
+        <Select>
+          <Option value="None">Private - No License or access granted</Option>
+          <Option value="Public">Public Domain</Option>
+          <Option value="CC BY">CC Attribution</Option>
+          <Option value="CC BY-SA">CC Attribution ShareALike</Option>
+          <Option value="CC BY-NC">CC Attribution NonCommercial</Option>
+          <Option value="CC BY-ND">CC Attribution NoDerivs</Option>
+          <Option value="CC BY-NC-SA">CC Attribution NonCommercial ShareALike</Option>
+          <Option value="CC BY-NC-ND">CC Attribution NonCommercial NoDerivs</Option>
+        </Select>
+      </Field>
+    </Group>
+  </Form>
+  <!-- Define fields available in output meta.csv file -->
+  <Form name="meta.csv">
+    <Field>
+      <Key>WA|*INDIR</Key>
+      <Label>INDIR</Label>
+    </Field>
+    <Field>
+      <Key>WA|*FOLDER</Key>
+      <Label>FOLDER</Label>
+    </Field>
+    <Field>
+      <Key>WA|*INFILE</Key>
+      <Label>IN FILE</Label>
+    </Field>
+    <Field type="float">
+      <Key>Length</Key>
+      <Label>DURATION</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="date">
+      <Key>Timestamp</Key>
+      <SubKey>date</SubKey>
+      <Label>DATE</Label>
+    </Field>
+    <Field type="time">
+      <Key>Timestamp</Key>
+      <SubKey>time</SubKey>
+      <Label>TIME</Label>
+    </Field>
+    <Field type="integer">
+      <Key>Timestamp</Key>
+      <SubKey>hour</SubKey>
+      <Label>HOUR</Label>
+    </Field>
+    <Field type="date">
+      <Key>Timestamp</Key>
+      <SubKey>date-12</SubKey>
+      <Label>DATE-12</Label>
+    </Field>
+    <Field type="time">
+      <Key>Timestamp</Key>
+      <SubKey>time-12</SubKey>
+      <Label>TIME-12</Label>
+    </Field>
+    <Field type="integer">
+      <Key>Timestamp</Key>
+      <SubKey>hour-12</SubKey>
+      <Label>HOUR-12</Label>
+    </Field>
+    <Field type="float">
+      <Key>Loc Position</Key>
+      <SubKey>0</SubKey>
+      <Label>LATITUDE</Label>
+      <Units>deg</Units>
+    </Field>
+    <Field type="float">
+      <Key>Loc Position</Key>
+      <SubKey>1</SubKey>
+      <Label>LONGITUDE</Label>
+      <Units>deg</Units>
+    </Field>
+    <Field>
+      <Key>Model</Key>
+      <Label>MODEL</Label>
+    </Field>
+    <Field>
+      <Key>Serial</Key>
+      <Label>SERIAL NO</Label>
+    </Field>
+    <Field>
+      <Key>Firmware Version</Key>
+      <Label>FIRMWARE</Label>
+    </Field>
+    <Field>
+      <Key>WA|Song Meter|Prefix</Key>
+      <Label>PREFIX</Label>
+    </Field>
+    <Field>
+      <Key>Note</Key>
+      <Label>NOTES</Label>
+    </Field>
+    <Field>
+      <Key>Species Auto ID</Key>
+      <Label>AUTO ID</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{pulses}</SubKey>
+      <Label>PULSES</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{matching}</SubKey>
+      <Label>MATCHING</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{match ratio}</SubKey>
+      <Label>MATCH RATIO</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{score}</SubKey>
+      <Label>MARGIN</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*1</Key>
+      <Default>1</Default>
+      <Label>FILES</Label>
+    </Field>
+    <Field>
+      <Key>Species Manual ID</Key>
+      <Label>MANUAL ID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*ORGID</Key>
+      <Label>ORGID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*USERID</Key>
+      <Label>USERID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*REVIEWORGID</Key>
+      <Label>REVIEW ORGID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*REVIEWUSERID</Key>
+      <Label>REVIEW USERID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*INPATHMD5</Key>
+      <Label>INPATHMD5</Label>
+    </Field>
+  </Form>
+  <!-- Define fields available in output autoid.csv file -->
+  <Form name="autoid.csv">
+    <Field>
+      <Key>WA|*INDIR</Key>
+      <Label>INDIR</Label>
+    </Field>
+    <Field>
+      <Key>WA|*OUTDIR</Key>
+      <Label>OUTDIR</Label>
+    </Field>
+    <Field>
+      <Key>WA|*FOLDER</Key>
+      <Label>FOLDER</Label>
+    </Field>
+    <Field>
+      <Key>WA|*INFILE</Key>
+      <Label>IN FILE</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*CHANNEL</Key>
+      <Label>CHANNEL</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|*OFFSET</Key>
+      <Label>OFFSET</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="float">
+      <Key>Length</Key>
+      <Label>DURATION</Label>
+      <Units>s</Units>
+    </Field>
+    <Field>
+      <Key>WA|*OUTFILEFS</Key>
+      <Label>OUT FILE FS</Label>
+    </Field>
+    <Field>
+      <Key>WA|*OUTFILEZC</Key>
+      <Label>OUT FILE ZC</Label>
+    </Field>
+    <Field type="date">
+      <Key>Timestamp</Key>
+      <SubKey>date</SubKey>
+      <Label>DATE</Label>
+    </Field>
+    <Field type="time">
+      <Key>Timestamp</Key>
+      <SubKey>time</SubKey>
+      <Label>TIME</Label>
+    </Field>
+    <Field type="integer">
+      <Key>Timestamp</Key>
+      <SubKey>hour</SubKey>
+      <Label>HOUR</Label>
+    </Field>
+    <Field type="date">
+      <Key>Timestamp</Key>
+      <SubKey>date-12</SubKey>
+      <Label>DATE-12</Label>
+    </Field>
+    <Field type="time">
+      <Key>Timestamp</Key>
+      <SubKey>time-12</SubKey>
+      <Label>TIME-12</Label>
+    </Field>
+    <Field type="integer">
+      <Key>Timestamp</Key>
+      <SubKey>hour-12</SubKey>
+      <Label>HOUR-12</Label>
+    </Field>
+    <Field>
+      <Key>Species Auto ID</Key>
+      <Label>AUTO ID</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{pulses}</SubKey>
+      <Label>PULSES</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{matching}</SubKey>
+      <Label>MATCHING</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{match ratio}</SubKey>
+      <Label>MATCH RATIO</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{score}</SubKey>
+      <Label>MARGIN</Label>
+    </Field>
+    <Field>
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{alternates}[0]</SubKey>
+      <Label>ALTERNATE 1</Label>
+    </Field>
+    <Field>
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{alternates}[1]</SubKey>
+      <Label>ALTERNATE 2</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{pulses}</SubKey>
+      <Label>N</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Fc}</SubKey>
+      <Label>Fc</Label>
+      <Units>kHz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Sc}</SubKey>
+      <Label>Sc</Label>
+      <Units>OPS</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Dur}</SubKey>
+      <Label>Dur</Label>
+      <Units>ms</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Fmax}</SubKey>
+      <Label>Fmax</Label>
+      <Units>kHz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Fmin}</SubKey>
+      <Label>Fmin</Label>
+      <Units>kHz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Fmean}</SubKey>
+      <Label>Fmean</Label>
+      <Units>kHz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{TBC}</SubKey>
+      <Label>TBC</Label>
+      <Units>ms</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Fk}</SubKey>
+      <Label>Fk</Label>
+      <Units>kHz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Tk}</SubKey>
+      <Label>Tk</Label>
+      <Units>ms</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{S1}</SubKey>
+      <Label>S1</Label>
+      <Units>OPS</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Tc}</SubKey>
+      <Label>Tc</Label>
+      <Units>ms</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Qual}</SubKey>
+      <Label>Qual</Label>
+      <Units>%</Units>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*1</Key>
+      <Default>1</Default>
+      <Label>FILES</Label>
+    </Field>
+    <Field>
+      <Key>Species Manual ID</Key>
+      <Label>MANUAL ID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*ORGID</Key>
+      <Label>ORGID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*USERID</Key>
+      <Label>USERID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*REVIEWORGID</Key>
+      <Label>REVIEW ORGID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*REVIEWUSERID</Key>
+      <Label>REVIEW USERID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*INPATHMD5</Key>
+      <Label>INPATHMD5</Label>
+    </Field>
+    <Field>
+      <Key>WA|*OUTPATHMD5FS</Key>
+      <Label>OUTPATHMD5FS</Label>
+    </Field>
+    <Field>
+      <Key>WA|*OUTPATHMD5ZC</Key>
+      <Label>OUTPATHMD5ZC</Label>
+    </Field>
+  </Form>
+  <!-- Define fields available in output cluster.csv file -->
+  <Form name="cluster.csv">
+    <Field>
+      <Key>WA|*INDIR</Key>
+      <Label>INDIR</Label>
+    </Field>
+    <Field>
+      <Key>WA|*FOLDER</Key>
+      <Label>FOLDER</Label>
+    </Field>
+    <Field>
+      <Key>WA|*INFILE</Key>
+      <Label>IN FILE</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*CHANNEL</Key>
+      <Label>CHANNEL</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{offset}</SubKey>
+      <Label>OFFSET</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{duration}</SubKey>
+      <Label>DURATION</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{fMin}</SubKey>
+      <Label>Fmin</Label>
+      <Units>Hz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{fMean}</SubKey>
+      <Label>Fmean</Label>
+      <Units>Hz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{fMax}</SubKey>
+      <Label>Fmax</Label>
+      <Units>Hz</Units>
+    </Field>
+    <Field type="date">
+      <Key>Timestamp</Key>
+      <SubKey>date</SubKey>
+      <Label>DATE</Label>
+    </Field>
+    <Field type="time">
+      <Key>Timestamp</Key>
+      <SubKey>time</SubKey>
+      <Label>TIME</Label>
+    </Field>
+    <Field type="integer">
+      <Key>Timestamp</Key>
+      <SubKey>hour</SubKey>
+      <Label>HOUR</Label>
+    </Field>
+    <Field type="date">
+      <Key>Timestamp</Key>
+      <SubKey>date-12</SubKey>
+      <Label>DATE-12</Label>
+    </Field>
+    <Field type="time">
+      <Key>Timestamp</Key>
+      <SubKey>time-12</SubKey>
+      <Label>TIME-12</Label>
+    </Field>
+    <Field type="integer">
+      <Key>Timestamp</Key>
+      <SubKey>hour-12</SubKey>
+      <Label>HOUR-12</Label>
+    </Field>
+    <Field>
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{cluster}[0]</SubKey>
+      <Label>TOP1MATCH</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{distance}[0]</SubKey>
+      <Label>TOP1DIST</Label>
+    </Field>
+    <Field>
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{cluster}[1]</SubKey>
+      <Label>TOP2MATCH</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{distance}[1]</SubKey>
+      <Label>TOP2DIST</Label>
+    </Field>
+    <Field>
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{cluster}[2]</SubKey>
+      <Label>TOP3MATCH</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{distance}[2]</SubKey>
+      <Label>TOP3DIST</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*1</Key>
+      <Default>1</Default>
+      <Label>VOCALIZATIONS</Label>
+    </Field>
+    <Field>
+      <Key>Species Manual ID</Key>
+      <Label>MANUAL ID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*ORGID</Key>
+      <Label>ORGID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*USERID</Key>
+      <Label>USERID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*REVIEWORGID</Key>
+      <Label>REVIEW ORGID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*REVIEWUSERID</Key>
+      <Label>REVIEW USERID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*INPATHMD5</Key>
+      <Label>INPATHMD5</Label>
+    </Field>
+  </Form>
+  <!-- Define batch.csv database columns -->
+  <Form name="batch.csv">
+    <Field>
+      <Key>WA|*BATCHLABEL</Key>
+      <Label>Batch Label</Label>
+    </Field>
+    <Field type="datetime">
+      <Key>WA|*TIMESTAMP</Key>
+      <Label>Timestamp</Label>
+      <Default>now</Default>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*BATCHRECORDSBYTES</Key>
+      <Label>Size</Label>
+      <Units>bytes</Units>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*BATCHRECORDSRECORDINGS</Key>
+      <Label>N Recordings</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*BATCHRECORDSAUTOIDS</Key>
+      <Label>N Auto IDs</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*BATCHRECORDSCLUSTERS</Key>
+      <Label>N Clusters</Label>
+    </Field>
+    <Field>
+      <Key>WA|Kaleidoscope|Version</Key>
+      <Label>Kaleidoscope Version</Label>
+    </Field>
+    <Field>
+      <Key>WA|*INDIR</Key>
+      <Label>Input Directory</Label>
+    </Field>
+    <Field>
+      <Key>WA|*OUTDIR</Key>
+      <Label>Output Directory</Label>
+    </Field>
+    <Field>
+      <Key>WA|*INDRIVELABEL</Key>
+      <Label>Input Drive Label</Label>
+    </Field>
+    <Field>
+      <Key>WA|*OUTDRIVELABEL</Key>
+      <Label>Output Drive Label</Label>
+    </Field>
+    <Field>
+      <Key>WA|Kaleidoscope|Classifier|Version</Key>
+      <Label>Classifier Version</Label>
+    </Field>
+    <Field type="json">
+      <Key>WA|Kaleidoscope|Classifier|Settings</Key>
+      <Label>Classifier Settings</Label>
+    </Field>
+    <Field type="json">
+      <Key>WA|Kaleidoscope|Cluster|Settings</Key>
+      <Label>Cluster Settings</Label>
+    </Field>
+    <Field type="json">
+      <Key>WA|Kaleidoscope|SPL|Settings</Key>
+      <Label>SPL Settings</Label>
+    </Field>
+    <Field type="json">
+      <Key>WA|Kaleidoscope|Acoustic Index|Settings</Key>
+      <Label>Acoustic Index Settings</Label>
+    </Field>
+    <Field>
+      <Key>Note</Key>
+      <Label>Notes</Label>
+    </Field>
+    <Field>
+      <Key>WA|*ORGID</Key>
+      <Label>ORGID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*USERID</Key>
+      <Label>USERID</Label>
+    </Field>
+    <Field>
+      <Key>WA|*BATCHFINGERPRINT</Key>
+      <Label>Fingerprint</Label>
+    </Field>
+  </Form>
+  <!-- Define ks_profiles database columns -->
+  <Form name="ks_profiles">
+    <Field>
+      <Key>WA|Copyright</Key>
+      <Label>Copyright</Label>
+    </Field>
+    <Field>
+      <Key>WA|Attribution</Key>
+      <Label>Attribution</Label>
+    </Field>
+    <Field>
+      <Key>WA|License</Key>
+      <Label>License Type</Label>
+    </Field>
+    <Field type="float">
+      <Key>Filter HP</Key>
+      <Units>kHz</Units>
+    </Field>
+    <Field type="float">
+      <Key>Filter LP</Key>
+      <Units>kHz</Units>
+    </Field>
+    <Field>
+      <Key>Firmware Version</Key>
+    </Field>
+    <Field>
+      <Key>Hardware Version</Key>
+    </Field>
+    <Field>
+      <Key>Make</Key>
+    </Field>
+    <Field>
+      <Key>Model</Key>
+    </Field>
+    <Field type="integer">
+      <Key>Samplerate</Key>
+    </Field>
+    <Field>
+      <Key>Serial</Key>
+    </Field>
+    <Field type="integer">
+      <Key>TE</Key>
+    </Field>
+    <Field>
+      <Key>WA|Song Meter|Prefix</Key>
+      <Label>Prefix</Label>
+    </Field>
+    <Field>
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[0]{mic}</SubKey>
+      <Label>Mic0</Label>
+    </Field>
+    <Field>
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[1]{mic}</SubKey>
+      <Label>Mic1</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[0]{gain}</SubKey>
+      <Label>Gain 0</Label>
+      <Units>dB</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[0]{hpf}</SubKey>
+      <Label>HPF 0</Label>
+      <Units>Hz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[0]{trig level}</SubKey>
+      <Label>Trig Level 0</Label>
+      <Units>dB</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[0]{trig window}</SubKey>
+      <Label>Trig Window 0</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[0]{trig max len}</SubKey>
+      <Label>Trig Max Len 0</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[0]{trig min freq}</SubKey>
+      <Label>Trig Min Freq 0</Label>
+      <Units>Hz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[0]{trig max freq}</SubKey>
+      <Label>Trig Max Freq 0</Label>
+      <Units>Hz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[0]{trig min dur}</SubKey>
+      <Label>Trig Min Dur 0</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[0]{trig max dur}</SubKey>
+      <Label>Trig Max Dur 0</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[1]{gain}</SubKey>
+      <Label>Gain 1</Label>
+      <Units>dB</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[1]{hpf}</SubKey>
+      <Label>HPF 1</Label>
+      <Units>Hz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[1]{trig level}</SubKey>
+      <Label>Trig Level 1</Label>
+      <Units>dB</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[1]{trig window}</SubKey>
+      <Label>Trig Window 1</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[1]{trig max len}</SubKey>
+      <Label>Trig Max Len 1</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[1]{trig min freq}</SubKey>
+      <Label>Trig Min Freq 1</Label>
+      <Units>Hz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[1]{trig max freq}</SubKey>
+      <Label>Trig Max Freq 1</Label>
+      <Units>Hz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[1]{trig min dur}</SubKey>
+      <Label>Trig Min Dur 1</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Song Meter|Audio settings</Key>
+      <SubKey>[1]{trig max dur}</SubKey>
+      <Label>Trig Max Dur 1</Label>
+      <Units>s</Units>
+    </Field>
+    <Field>
+      <Key>WA|Song Meter|Compression</Key>
+      <Label>Compression</Label>
+    </Field>
+    <Group>
+      <Heading>OTHER</Heading>
+      <!-- other user-defined profile fields can be defined here -->
+    </Group>
+  </Form>
+  <!-- Define ks_recordings database columns -->
+  <Form name="ks_recordings">
+    <Field type="integer">
+      <Key>WA|*ACCESS</Key>
+      <Label>ACCESS</Label>
+    </Field>
+    <Field>
+      <Key>WA|*PATH</Key>
+      <Label>Path</Label>
+    </Field>
+    <Field>
+      <Key>WA|*DRIVELABEL</Key>
+      <Label>Drive Label</Label>
+    </Field>
+    <Field>
+      <Key>WA|*FILE</Key>
+      <Label>File</Label>
+    </Field>
+    <Field>
+      <Key>WA|*FINGERPRINT</Key>
+      <Label>Fingerprint</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*INPATHID</Key>
+      <Label>INPATHID</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*PROFILEID</Key>
+      <Label>PROFILEID</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*NOTEID</Key>
+      <Label>NOTEID</Label>
+    </Field>
+    <Field type="float">
+      <Key>Humidity</Key>
+      <Units>%</Units>
+    </Field>
+    <Field type="float">
+      <Key>Length</Key>
+      <Units>s</Units>
+    </Field>
+    <Field type="float">
+      <Key>Loc Accuracy</Key>
+      <Units>deg</Units>
+    </Field>
+    <Field type="float">
+      <Key>Loc Elevation</Key>
+      <Units>m</Units>
+    </Field>
+    <Field type="float">
+      <Key>Loc Position</Key>
+      <SubKey>0</SubKey>
+      <Label>Latitude</Label>
+      <Units>deg</Units>
+    </Field>
+    <Field type="float">
+      <Key>Loc Position</Key>
+      <SubKey>1</SubKey>
+      <Label>Longitude</Label>
+      <Units>deg</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|GPS Fuzz"</Key>
+      <Label>GPS Fuzz</Label>
+      <Units>deg</Units>
+    </Field>
+    <Field>
+      <Key>Original Filename</Key>
+    </Field>
+    <Field type="float">
+      <Key>Temperature Ext</Key>
+      <Units>C</Units>
+    </Field>
+    <Field type="float">
+      <Key>Temperature Int</Key>
+      <Units>C</Units>
+    </Field>
+    <Field type="datetime">
+      <Key>Timestamp</Key>
+    </Field>
+    <Field type="json">
+      <Key>WA|Kaleidoscope|SPL|Statistics</Key>
+      <Label>SPL Statistics</Label>
+    </Field>
+    <Field type="json">
+      <Key>WA|Kaleidoscope|Acoustic Index|Statistics</Key>
+      <Label>Acoustic Index Statistics</Label>
+    </Field>
+    <Group>
+      <Heading>OTHER</Heading>
+      <!-- other user-defined recording fields can be defined here -->
+    </Group>
+  </Form>
+  <!-- Define ks_autoids database columns -->
+  <Form name="ks_autoids">
+    <Field type="integer">
+      <Key>WA|*ACCESS</Key>
+      <Label>ACCESS</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*INPATHID</Key>
+      <Label>INPATHID</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*OUTPATHIDFS</Key>
+      <Label>OUTPATHIDFS</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*OUTPATHIDZC</Key>
+      <Label>OUTPATHIDZC</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*CHANNEL</Key>
+      <Label>Channel</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|*OFFSET</Key>
+      <Label>Offset</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="float">
+      <Key>Length</Key>
+      <Label>Duration</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="datetime">
+      <Key>Timestamp</Key>
+    </Field>
+    <Field>
+      <Key>Species Auto ID</Key>
+    </Field>
+    <Field type="integer">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{pulses}</SubKey>
+      <Label>Pulses</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{matching}</SubKey>
+      <Label>Matching</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{match ratio}</SubKey>
+      <Label>Match Ratio</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{score}</SubKey>
+      <Label>Margin</Label>
+    </Field>
+    <Field>
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{alternates}[0]</SubKey>
+      <Label>Alternate 1</Label>
+    </Field>
+    <Field>
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{alternates}[1]</SubKey>
+      <Label>Alternate 2</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Fc}</SubKey>
+      <Label>Fc</Label>
+      <Units>kHz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Sc}</SubKey>
+      <Label>Sc</Label>
+      <Units>OPS</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Dur}</SubKey>
+      <Label>Dur</Label>
+      <Units>ms</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Fmax}</SubKey>
+      <Label>Fmax</Label>
+      <Units>kHz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Fmin}</SubKey>
+      <Label>Fmin</Label>
+      <Units>kHz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Fmean}</SubKey>
+      <Label>Fmean</Label>
+      <Units>kHz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{TBC}</SubKey>
+      <Label>TBC</Label>
+      <Units>ms</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Fk}</SubKey>
+      <Label>Fk</Label>
+      <Units>kHz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Tk}</SubKey>
+      <Label>Tk</Label>
+      <Units>ms</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{S1}</SubKey>
+      <Label>S1</Label>
+      <Units>OPS</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Tc}</SubKey>
+      <Label>Tc</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Classifier|Statistics</Key>
+      <SubKey>{Qual}</SubKey>
+      <Label>Qual</Label>
+      <Units>%</Units>
+    </Field>
+    <Group>
+      <Heading>OTHER</Heading>
+      <!-- other user-defined autoid fields can be defined here -->
+    </Group>
+  </Form>
+  <!-- Define ks_clusters database columns -->
+  <Form name="ks_clusters">
+    <Field type="integer">
+      <Key>WA|*ACCESS</Key>
+      <Label>ACCESS</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*INPATHID</Key>
+      <Label>INPATHID</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*CHANNEL</Key>
+      <Label>Channel</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{offset}</SubKey>
+      <Label>Offset</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{duration}</SubKey>
+      <Label>Duration</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{fMin}</SubKey>
+      <Label>Fmin</Label>
+      <Units>Hz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{fMean}</SubKey>
+      <Label>Fmean</Label>
+      <Units>Hz</Units>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{fMax}</SubKey>
+      <Label>Fmax</Label>
+      <Units>Hz</Units>
+    </Field>
+    <Field type="datetime">
+      <Key>Timestamp</Key>
+      <Label>Timestamp</Label>
+    </Field>
+    <Field>
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{cluster}[0]</SubKey>
+      <Label>Top 1 Match</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{distance}[0]</SubKey>
+      <Label>Top 1 Distance</Label>
+    </Field>
+    <Field>
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{cluster}[1]</SubKey>
+      <Label>Top 2 Match</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{distance}[1]</SubKey>
+      <Label>Top 2 Distance</Label>
+    </Field>
+    <Field>
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{cluster}[2]</SubKey>
+      <Label>Top 3 Match</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|Kaleidoscope|Cluster|Statistics</Key>
+      <SubKey>{distance}[2]</SubKey>
+      <Label>Top 3 Distance</Label>
+    </Field>
+    <Group>
+      <Heading>OTHER</Heading>
+      <!-- other user-defined cluster fields can be defined here -->
+    </Group>
+  </Form>
+  <!-- Define ks_batches database columns -->
+  <Form name="ks_batches">
+    <Field type="integer">
+      <Key>WA|*ACCESS</Key>
+      <Label>ACCESS</Label>
+    </Field>
+    <Field>
+      <Key>WA|*BATCHFINGERPRINT</Key>
+      <Label>Fingerprint</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*BATCHRECORDSBYTES</Key>
+      <Label>Size</Label>
+      <Units>bytes</Units>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*BATCHRECORDSRECORDINGS</Key>
+      <Label>Recording Records</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*BATCHRECORDSAUTOIDS</Key>
+      <Label>Auto ID Records</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*BATCHRECORDSCLUSTERS</Key>
+      <Label>Cluster Records</Label>
+    </Field>
+    <Field>
+      <Key>WA|*BATCHLABEL</Key>
+      <Label>Batch Label</Label>
+    </Field>
+    <Field type="datetime">
+      <Key>WA|*TIMESTAMP</Key>
+      <Label>Timestamp</Label>
+      <Default>now</Default>
+    </Field>
+    <Field>
+      <Key>WA|Kaleidoscope|Version</Key>
+      <Label>Kaleidoscope Version</Label>
+    </Field>
+    <Field>
+      <Key>WA|*INDIR</Key>
+      <Label>Input Directory</Label>
+    </Field>
+    <Field>
+      <Key>WA|*OUTDIR</Key>
+      <Label>Output Directory</Label>
+    </Field>
+    <Field>
+      <Key>WA|*INDRIVELABEL</Key>
+      <Label>Input Drive Label</Label>
+    </Field>
+    <Field>
+      <Key>WA|*OUTDRIVELABEL</Key>
+      <Label>Output Drive Label</Label>
+    </Field>
+    <Field>
+      <Key>WA|Kaleidoscope|Classifier|Version</Key>
+      <Label>Classifier Version</Label>
+    </Field>
+    <Field type="json">
+      <Key>WA|Kaleidoscope|Classifier|Settings</Key>
+      <Label>Classifier Settings</Label>
+    </Field>
+    <Field type="json">
+      <Key>WA|Kaleidoscope|Cluster|Settings</Key>
+      <Label>Cluster Settings</Label>
+    </Field>
+    <Field type="json">
+      <Key>WA|Kaleidoscope|SPL|Settings</Key>
+      <Label>SPL Settings</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*NOTEID</Key>
+      <Label>NOTEID</Label>
+    </Field>
+    <Group>
+      <Heading>OTHER</Heading>
+      <!-- other user-defined batch fields can be defined here -->
+    </Group>
+  </Form>
+  <!-- Define ks_reviews database columns -->
+  <Form name="ks_reviews">
+    <Field type="integer">
+      <Key>WA|*ACCESS</Key>
+      <Label>ACCESS</Label>
+    </Field>
+    <Field type="datetime">
+      <Key>WA|*TIMESTAMP</Key>
+      <Label>Timestamp</Label>
+      <Default>now</Default>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*PATHID</Key>
+      <Label>PATHID</Label>
+    </Field>
+    <Field type="integer">
+      <Key>WA|*CHANNEL</Key>
+      <Label>Channel</Label>
+    </Field>
+    <Field type="float">
+      <Key>WA|*OFFSET</Key>
+      <Label>Offset</Label>
+      <Units>s</Units>
+    </Field>
+    <Field type="float">
+      <Key>Length</Key>
+      <Label>Duration</Label>
+      <Units>s</Units>
+    </Field>
+    <Field>
+      <Key>Species Manual ID</Key>
+    </Field>
+    <Group>
+      <Heading>OTHER</Heading>
+      <!-- other user-defined review fields can be defined here -->
+    </Group>
+  </Form>
+</MetaForms>
